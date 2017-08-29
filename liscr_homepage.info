@@ -1,0 +1,4 @@
+name = "Homepage form"
+core = "7.x"
+description = "Homepage form to save configuration settings."
+package = LISCR

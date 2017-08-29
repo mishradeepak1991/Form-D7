@@ -1,0 +1,456 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function liscr_homepage_menu() {
+  $items['admin/config/liscr'] = array(
+    'title' => 'Liscr',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('liscr_homepage_form'),
+    'access arguments' => array('manage homepage'),
+  );
+  $items['admin/config/liscr/banner'] = array(
+    'title' => 'Banner',
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('manage homepage'),
+    'file' => 'includes/homepage_form.inc',
+    'type' => MENU_LOCAL_TASK,
+    'page arguments' => array('liscr_homepage_form'),
+  );
+  $items['admin/config/liscr/service'] = array(
+    'title' => 'Our Services',
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('manage homepage'),
+    'file' => 'includes/services_form.inc',
+    'type' => MENU_LOCAL_TASK,
+    'page arguments' => array('liscr_our_services'),
+  );
+  $items['admin/config/liscr/library'] = array(
+    'title' => 'Online library',
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('manage homepage'),
+    'file' => 'includes/online_library.inc',
+    'type' => MENU_LOCAL_TASK,
+    'page arguments' => array('liscr_online_library'),
+  );
+  $items['admin/config/liscr/registry'] = array(
+    'title' => 'About registry',
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('manage homepage'),
+    'file' => 'includes/about_registry.inc',
+    'type' => MENU_LOCAL_TASK,
+    'page arguments' => array('liscr_about_registry'),
+  );
+  $items['admin/config/liscr/whatsnew'] = array(
+    'title' => 'Whatsnew',
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('manage homepage'),
+    'file' => 'includes/whats_new.inc',
+    'type' => MENU_LOCAL_TASK,
+    'page arguments' => array('liscr_whats_new'),
+  );
+  $items['admin/config/liscr/news'] = array(
+    'title' => 'News',
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('manage homepage'),
+    'file' => 'includes/news_form.inc',
+    'type' => MENU_LOCAL_TASK,
+    'page arguments' => array('liscr_news_form'),
+  );
+  $items['admin/config/liscr/excellence'] = array(
+    'title' => 'Excellence',
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('manage homepage'),
+    'file' => 'includes/excellence_form.inc',
+    'type' => MENU_LOCAL_TASK,
+    'page arguments' => array('liscr_excellence_form'),
+  );
+  $items['admin/config/liscr/flagstate'] = array(
+    'title' => 'Flagstate App',
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('manage homepage'),
+    'file' => 'includes/flagstate_app.inc',
+    'type' => MENU_LOCAL_TASK,
+    'page arguments' => array('liscr_flagstate_app'),
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function liscr_homepage_permission() {
+  return array(
+    'manage homepage' => array(
+      'title' => t('Manage Homepage'),
+    ),
+  );
+}
+
+
+/**
+ * Implements hook_block_info().
+ */
+function liscr_homepage_block_info() {
+  $blocks['about_registry'] = array(
+    'info' => t('About registry Block'),
+    'status' => TRUE,
+    'region' => 'content',
+    'visibility' => BLOCK_VISIBILITY_LISTED,
+    'pages' => 'home',
+    'weight' => 4,
+  );
+  $blocks['banner'] = array(
+    'info' => t('Banner Block'),
+    'status' => TRUE,
+    'region' => 'content',
+    'visibility' => BLOCK_VISIBILITY_LISTED,
+    'pages' => 'home',
+    'weight' => 1,
+  );
+  $blocks['excellence'] = array(
+    'info' => t('Excellence Block'),
+    'status' => TRUE,
+    'region' => 'content',
+    'visibility' => BLOCK_VISIBILITY_LISTED,
+    'pages' => 'home',
+    'weight' => 7,
+  );
+  $blocks['flagstate'] = array(
+    'info' => t('Flagstate App Block'),
+    'status' => TRUE,
+    'region' => 'content',
+    'visibility' => BLOCK_VISIBILITY_LISTED,
+    'pages' => 'home',
+    'weight' => 8,
+  );
+  $blocks['news'] = array(
+    'info' => t('News Block'),
+    'status' => TRUE,
+    'region' => 'content',
+    'visibility' => BLOCK_VISIBILITY_LISTED,
+    'pages' => 'home',
+    'weight' => 6,
+  );
+  $blocks['library'] = array(
+    'info' => t('Online library Block'),
+    'status' => TRUE,
+    'region' => 'content',
+    'visibility' => BLOCK_VISIBILITY_LISTED,
+    'pages' => 'home',
+    'weight' => 3,
+  );
+  $blocks['services'] = array(
+    'info' => t('Our services Block'),
+    'status' => TRUE,
+    'region' => 'content',
+    'visibility' => BLOCK_VISIBILITY_LISTED,
+    'pages' => 'home',
+    'weight' => 2,
+  );
+  $blocks['whatsnew'] = array(
+    'info' => t('Whatsnew Block'),
+    'status' => TRUE,
+    'region' => 'content',
+    'visibility' => BLOCK_VISIBILITY_LISTED,
+    'pages' => 'home',
+    'weight' => 5,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_theme().
+ *
+ * Defines the theming capabilities provided by this module.
+ */
+function liscr_homepage_theme() {
+  return array(
+    'about_registry_block' => array(
+      'variables' => liscr_homepage_get_vars('about_registry', 'define'),
+      'template' => 'about-registry-block',
+      'path' => drupal_get_path('theme', 'liscr') . '/theme/block',
+    ),
+    'banner_block' => array(
+      'variables' => liscr_homepage_get_vars('banner', 'define'),
+      'template' => 'banner-block',
+      'path' => drupal_get_path('theme', 'liscr') . '/theme/block',
+    ),
+    'excellence_block' => array(
+      'variables' => liscr_homepage_get_vars('excellence', 'define'),
+      'template' => 'excellence-block',
+      'path' => drupal_get_path('theme', 'liscr') . '/theme/block',
+    ),
+    'flagstate_block' => array(
+      'variables' => liscr_homepage_get_vars('flagstate', 'define'),
+      'template' => 'flagstate-block',
+      'path' => drupal_get_path('theme', 'liscr') . '/theme/block',
+    ),
+    'news_block' => array(
+      'variables' => liscr_homepage_get_vars('news', 'define'),
+      'template' => 'news-block',
+      'path' => drupal_get_path('theme', 'liscr') . '/theme/block',
+    ),
+    'library_block' => array(
+      'variables' => liscr_homepage_get_vars('library', 'define'),
+      'template' => 'library-block',
+      'path' => drupal_get_path('theme', 'liscr') . '/theme/block',
+    ),
+    'services_block' => array(
+      'variables' => liscr_homepage_get_vars('our_services', 'define'),
+      'template' => 'services-block',
+      'path' => drupal_get_path('theme', 'liscr') . '/theme/block',
+    ),
+    'whatsnew_block' => array(
+      'variables' => liscr_homepage_get_vars('whatsnew', 'define'),
+      'template' => 'whatsnew-block',
+      'path' => drupal_get_path('theme', 'liscr') . '/theme/block',
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ * This hook generates the contents of the blocks themselves.
+ */
+function liscr_homepage_block_view($delta = '') {
+  // The $delta parameter tells us which block is being requested.
+  switch ($delta) {
+    case 'about_registry':
+      $block['content'] = theme('about_registry_block', liscr_homepage_get_vars('about_registry', 'value'));
+      break;
+
+    case 'banner':
+      $block['content'] = theme('banner_block', liscr_homepage_get_vars('banner', 'value'));
+      break;
+
+    case 'excellence':
+      $block['content'] = theme('excellence_block', liscr_homepage_get_vars('excellence', 'value'));
+      break;
+
+    case 'flagstate':
+      $block['content'] = theme('flagstate_block', liscr_homepage_get_vars('flagstate', 'value'));
+      break;
+
+    case 'news':
+      $block['content'] = theme('news_block', liscr_homepage_get_vars('news', 'value'));
+      break;
+
+    case 'library':
+      $block['content'] = theme('library_block', liscr_homepage_get_vars('library', 'value'));
+      break;
+
+    case 'services':
+      $block['content'] = theme('services_block', liscr_homepage_get_vars('services', 'value'));
+      break;
+
+    case 'whatsnew':
+      $block['content'] = theme('whatsnew_block', liscr_homepage_get_vars('whatsnew', 'value'));
+      break;
+  }
+  return $block;
+}
+
+/**
+ * This function is called to define variables.
+ */
+function liscr_homepage_get_vars($type, $format = 'value') {
+  $vars = array(
+    'about_registry' => array(
+      'hp_about_description',
+      'hp_about_image',
+      'hp_about_accomplishment1_line1',
+      'hp_about_accomplishment1_line2',
+      'hp_about_accomplishment2_line1',
+      'hp_about_accomplishment2_line2',
+      'hp_about_accomplishment3_line1',
+      'hp_about_accomplishment3_line2',
+      'hp_about_button1_text',
+      'hp_about_button1_link',
+      'hp_about_button2_text',
+      'hp_about_button2_link',
+    ),
+    'banner' => array(
+      'hp_banner_main_title',
+      'hp_banner_sub_title',
+      'hp_banner_button_text',
+      'hp_banner_button_link',
+      'hp_banner_image',
+      'hp_mobile_banner_image',
+    ),
+    'excellence' => array(
+      'hp_excellence_title_line1',
+      'hp_excellence_title_line2',
+      'hp_excellence_description',
+      'hp_excellence_video',
+    ),
+    'flagstate' => array(
+      'hp_flagstate_title_line1',
+      'hp_flagstate_title_line2',
+      'hp_flagstate_button_text',
+      'hp_flagstate_button_link',
+    ),
+    'news' => array(
+      'hp_news_description',
+      'hp_news_button_text',
+      'hp_news_button_link',
+      'hp_news_view_block',
+      'hp_events_description',
+      'hp_events_button_text',
+      'hp_events_button_link',
+      'hp_events_view_block',
+    ),
+    'library' => array(
+      'hp_library_description',
+      'hp_library_link',
+      'hp_library_icon',
+      'hp_calculator_description',
+      'hp_calculator_link',
+      'hp_calculator_icon',
+    ),
+    'services' => array(
+      'hp_services_description',
+      'hp_services_service1_name',
+      'hp_services_service1_link',
+      'hp_services_service1_description',
+      'hp_services_service1_image',
+      'hp_services_service1_icon',
+      'hp_services_service2_name',
+      'hp_services_service2_link',
+      'hp_services_service2_description',
+      'hp_services_service2_image',
+      'hp_services_service2_icon',
+      'hp_services_service3_name',
+      'hp_services_service3_link',
+      'hp_services_service3_description',
+      'hp_services_service3_image',
+      'hp_services_service3_icon',
+      'hp_services_service4_name',
+      'hp_services_service4_link',
+      'hp_services_service4_description',
+      'hp_services_service4_image',
+      'hp_services_service4_icon',
+    ),
+    'whatsnew' => array(
+      'hp_whatsnew_button_text',
+      'hp_whatsnew_button_link',
+      'hp_whatsnew_view_block',
+      'hp_whatsnew_pager_view_block',
+    ),
+  );
+
+  if (isset($vars[$type])) {
+    if ($format == 'value') {
+      foreach ($vars[$type] as $var) {
+        if ($var == 'hp_news_view_block') {
+          $final_vars[$var] = views_embed_view('news');
+        }
+        elseif ($var == 'hp_events_view_block') {
+          $final_vars[$var] = views_embed_view('events');
+        }
+        elseif ($var == 'hp_whatsnew_view_block') {
+          $final_vars[$var] = views_embed_view('home_page_whats_new_slider', 'whats_new_slider_block');
+        }
+        elseif ($var == 'hp_whatsnew_pager_view_block') {
+          $final_vars[$var] = views_embed_view('home_page_whats_new_slider', 'whats_new_slider_pager');
+        }
+        elseif (in_array($var, array(
+          'hp_services_service1_image',
+          'hp_services_service2_image',
+          'hp_services_service3_image',
+          'hp_services_service4_image',
+        ))) {
+          $file = file_load(variable_get($var));
+          if ($file) {
+            file_usage_add($file, 'liscr_homepage', 'managed_file', 1);
+          }
+          $final_vars[$var] = image_style_url('liscr_our_services_section', $file->uri);
+        }
+        elseif (in_array($var, array(
+          'hp_services_service1_icon',
+          'hp_services_service2_icon',
+          'hp_services_service3_icon',
+          'hp_services_service4_icon',
+        ))) {
+          $file = file_load(variable_get($var));
+          if ($file) {
+            file_usage_add($file, 'liscr_homepage', 'managed_file', 1);
+          }
+          $final_vars[$var] = image_style_url('liscr_our_services_icon', $file->uri);
+        }
+        elseif (in_array($var, array(
+          'hp_library_icon',
+          'hp_calculator_icon',
+        ))) {
+          $file = file_load(variable_get($var));
+          if ($file) {
+            file_usage_add($file, 'liscr_homepage', 'managed_file', 1);
+          }
+          $final_vars[$var] = image_style_url('liscr_library_and_calculator', $file->uri);
+        }
+        elseif (in_array($var, array(
+          'hp_banner_image',
+        ))) {
+          $file = file_load(variable_get($var));
+          if ($file) {
+            file_usage_add($file, 'liscr_homepage', 'managed_file', 1);
+          }
+          $final_vars[$var] = image_style_url('liscr_banner_image', $file->uri);
+        }
+        elseif (in_array($var, array(
+          'hp_mobile_banner_image',
+        ))) {
+          $file = file_load(variable_get($var));
+          if ($file) {
+            file_usage_add($file, 'liscr_homepage', 'managed_file', 1);
+          }
+          $final_vars[$var] = image_style_url('liscr_mobile_banner_image', $file->uri);
+        }
+        elseif (in_array($var, array(
+          'hp_about_image',
+        ))) {
+          $file = file_load(variable_get($var));
+          if ($file) {
+            file_usage_add($file, 'liscr_homepage', 'managed_file', 1);
+          }
+          $final_vars[$var] = image_style_url('liscr_about_registry_image', $file->uri);
+        }
+        else {
+          $final_vars[$var] = variable_get($var);
+        }
+      }
+      return $final_vars;
+    }
+    else {
+      foreach ($vars[$type] as $var) {
+        $final_vars[$var] = NULL;
+      }
+      return $final_vars;
+    }
+
+  }
+  else {
+    return FALSE;
+  }
+}
+
+/**
+ * Validates an image upload as having a particular aspect ratio.
+ *
+ * The aspect ratio in the format [WIDTH]:[HEIGHT]. E.g. '16:9'.
+ */
+function file_validate_image_aspect($file, $aspect_ratio = 0) {
+  $errors = array();
+  if ($info = image_get_info($file->uri)) {
+    if ($aspect_ratio) {
+      // Check that it is smaller than the given dimensions.
+      list($width, $height) = explode(':', $aspect_ratio);
+      if ($width * $info['height'] != $height * $info['width']) {
+        $errors[] = t('The image is the wrong aspect ratio , the aspect ratio needed is %ratio.', array('%ratio' => $aspect_ratio));
+      }
+    }
+  }
+  return $errors;
+}
